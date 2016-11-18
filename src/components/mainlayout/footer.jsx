@@ -11,11 +11,11 @@ class Footer extends Component {
 
   render(){
     return (
-      <Row>
-      <footer className={styles.footer} >
-        "welcom to yak platform!"
-      </footer>
-      </Row>
+
+        <div className={styles.footer} >
+          "welcom to yak platform!"
+        </div>
+
     );
   }
 

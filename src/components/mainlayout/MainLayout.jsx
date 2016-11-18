@@ -19,20 +19,22 @@ class MainLayout extends Component {
           <Header/>
         </Row>
 
-        <Row gutter={24} >
+        <Row type="flex">
 
-          <Col span={5} >
+          <Col span={4} >
               <SideBar/>
           </Col>
 
-          <Col className='gutter-row' span={18} >
+          <Col span={18} >
             {this.props.children}
-            <Row>
-              <Footer/>
-            </Row>
           </Col>
 
         </Row>
+
+        <Row>
+          <Footer/>
+        </Row>
+
       </div>
     );
 

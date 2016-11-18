@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Menu, Icon } from 'antd';
 import { Row, Col } from 'antd';
 import { Link } from 'dva/router';
+import style from './header.css';
 
 class Header extends Component {
 
@@ -11,7 +12,7 @@ class Header extends Component {
 
   render(){
     return (
-      <Menu
+      <Menu className={style.header}
         mode="horizontal"
         theme="dark"
       >

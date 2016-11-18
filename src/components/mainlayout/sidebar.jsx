@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Menu, Icon } from 'antd';
+import style from './sidebar.css';
+
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
@@ -27,8 +29,7 @@ class SideBar extends Component {
 
   render(){
     return(
-      <Menu onClick={this.handleClick}
-        style={{ width: 240 }}
+      <Menu className={style.sidebar} onClick={this.handleClick}
         defaultOpenKeys={['sub1']}
         selectedKeys={[this.state.current]}
         mode="inline"
