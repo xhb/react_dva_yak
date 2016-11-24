@@ -79,7 +79,7 @@ class MainLayout extends Component {
           <div className={styles.antLayoutContainer}>
             <div className={styles.antLayoutContent}>
               <div className={styles.antLayoutContentZone}>
-                内容区域
+                {this.props.children}
               </div>
             </div>
           </div>
