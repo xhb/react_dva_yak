@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { Menu, Breadcrumb, Icon } from 'antd';
 import styles from "./mainlayout.css";
+import { Link } from 'dva/router';
 
 class MainLayout extends Component {
 
@@ -53,7 +54,9 @@ class MainLayout extends Component {
 
             <SubMenu className={styles.antMenuItem} key="analysis" title={<span><Icon type="area-chart" /><span className={styles.navText} ref="analysisRef" >结果分析</span></span>}  disabled={collapse} onTitleClick={this.onSubMenuAnaChange.bind(this)} >
               <MenuItemGroup  title="报告类型">
-                <Menu.Item  key="1">时序图表</Menu.Item>
+                <Menu.Item  key="1">
+                    <Link to="/analysis/csvchart">时序图表</Link>
+                </Menu.Item>
                 <Menu.Item  key="2">表格类型</Menu.Item>
                 <Menu.Item  key="3">JSON类型</Menu.Item>
               </MenuItemGroup>
