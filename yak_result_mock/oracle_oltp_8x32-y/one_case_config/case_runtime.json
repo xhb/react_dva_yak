@@ -1,0 +1,27 @@
+ [{
+     "node_yak_id": 1,
+     "repo": "http://200.200.0.36/yak-apps/oracle_common_action.git",
+     "start_cmd": "rake",
+     "subscribe":[2],
+     "config": {
+          "connectstring": "//200.201.150.145/db11g",
+          "dbausername": "system",
+          "dbapassword": "oracle",
+          "cpuhost": "200.201.150.145",
+          "cpuusername": "root",
+          "cpupassword": "sangfor",
+          "modelsize": "50",
+          "usercount": "50",
+          "runtime": "02:00",
+          "pre_usercount": "100",
+          "pre_runtime": "00:30"
+     }
+ }, {
+     "node_yak_id": 2,
+     "repo": "http://200.200.0.36/yak-apps/notifytest.git",
+     "start_cmd": "rake",
+     "subscribe":[1],
+     "config": {
+     }
+ }]
+ 

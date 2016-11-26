@@ -1,0 +1,16 @@
+ [{
+     "node_yak_id": 1,
+     "name": "oracle_benchmark",
+     "vmid": "3973749996474",
+     "ip": "200.201.150.144",
+     "sshuser": "Administrator",
+     "sshpasswd": "sinfor"
+ },{
+     "node_yak_id": 2,
+     "name": "oracle_server",
+     "vmid": "2050323317470",
+     "ip": "200.201.150.145",
+     "sshuser": "root",
+     "sshpasswd": "sangfor"
+ }]
+ 

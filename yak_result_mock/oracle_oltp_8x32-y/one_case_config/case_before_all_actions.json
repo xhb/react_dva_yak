@@ -1,0 +1,17 @@
+[{
+    "action": "restore_vm",
+    "params": {
+        "vmid": "3973749996474",
+        "backup_name": "all-ok"
+    },
+    "sync": true,
+    "priority": 0
+}, {
+    "action": "restore_vm",
+    "params": {
+        "vmid": "2050323317470",
+        "backup_name": "all-ok"
+    },
+    "sync": true,
+    "priority": 1
+}]

@@ -1,0 +1,18 @@
+{
+    "hosts": [{
+        "host_id": "host-0cc47a6b1402",
+        "ip": "200.201.150.252",
+        "name": "200.201.150.252",
+        "master": true
+    }, {
+        "host_id": "host-0cc47a6b13f6",
+        "ip": "200.201.150.251",
+        "name": "200.201.150.251",
+        "master": false
+    }],
+    "user": "admin",
+    "passwd": "admin123",
+    "sshuser": "root",
+    "sshpasswd": "admin123sangfornetwork",
+    "cluster_ip": "200.201.150.253"
+}
