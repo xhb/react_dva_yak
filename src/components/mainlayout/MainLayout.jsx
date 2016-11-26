@@ -8,6 +8,7 @@ class MainLayout extends Component {
 
   constructor(props){
     super(props);
+    console.log(this.props.location.pathname);
     this.state = {
       collapse: true,
       SubMenuAnaOpened: false
@@ -19,17 +20,24 @@ class MainLayout extends Component {
   }
 
   onCollapseChange() {
-
     if(!this.state.collapse){
       let subMenuAnalysisText = this.refs.analysisRef;
       if(this.state.SubMenuAnaOpened){
         subMenuAnalysisText.click();
       }
     }
-
     this.setState({
       collapse: !this.state.collapse,
     })
+  }
+
+  getMenuKeyFromUrl(pathname){
+    if(pathname != "/"){
+      return(pathname.replace(/\//g,"_"));
+    }else{
+      return "dashboard";
+    }
+
   }
 
   render() {
@@ -40,9 +48,17 @@ class MainLayout extends Component {
       <div className={collapse ? (styles.antLayoutAsideCollapse + " " +  styles.antLayoutAside ) : styles.antLayoutAside} >
         <aside className={styles.antLayoutSider} >
           <div className={styles.antLayoutLogo}>Yak</div>
-          <Menu mode="inline" theme="dark" defaultSelectedKeys={['user']} className={styles.antMenu} >
+
+          <Menu
+             mode="inline"
+             theme="dark"
+             defaultSelectedKeys={['dashboard']}
+             className={styles.antMenu}
+             selectedKeys={[this.getMenuKeyFromUrl(this.props.location.pathname)]}
+          >
+
             <Menu.Divider/>
-            <Menu.Item key="user" className={styles.antMenuItem}>
+            <Menu.Item key="dashboard" className={styles.antMenuItem}>
               <Icon type="pie-chart" /><span className={styles.navText}>运行情况</span>
             </Menu.Item>
             <Menu.Item key="setting" className={styles.antMenuItem}>
@@ -52,14 +68,27 @@ class MainLayout extends Component {
               <Icon type="laptop" /><span className={styles.navText}>场景执行</span>
             </Menu.Item>
 
-            <SubMenu className={styles.antMenuItem} key="analysis" title={<span><Icon type="area-chart" /><span className={styles.navText} ref="analysisRef" >结果分析</span></span>}  disabled={collapse} onTitleClick={this.onSubMenuAnaChange.bind(this)} >
+            <SubMenu
+              className={styles.antMenuItem}
+              key="analysis"
+              title={
+                      <span>
+                        <Icon type="area-chart" />
+                        <span className={styles.navText} ref="analysisRef" >结果分析</span>
+                      </span>
+                    }
+              disabled={collapse}
+              onTitleClick={this.onSubMenuAnaChange.bind(this)}
+            >
+
               <MenuItemGroup  title="报告类型">
-                <Menu.Item  key="1">
+                <Menu.Item  key="_analysis_csvchart">
                     <Link to="/analysis/csvchart">时序图表</Link>
                 </Menu.Item>
                 <Menu.Item  key="2">表格类型</Menu.Item>
                 <Menu.Item  key="3">JSON类型</Menu.Item>
               </MenuItemGroup>
+
             </SubMenu>
 
             <Menu.Item key="folder" className={styles.antMenuItem}>

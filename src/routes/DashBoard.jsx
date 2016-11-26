@@ -9,7 +9,7 @@ class  DashBoard extends Component {
 
   render(){
     return(
-      <MainLayout>
+      <MainLayout location={this.props.location}>
       </MainLayout>
     );
   }

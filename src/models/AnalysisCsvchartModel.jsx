@@ -1,4 +1,5 @@
 import querySvrResultChart from '../services/resultChart';
+import { parse } from 'qs';
 
 export default {
 
@@ -12,9 +13,22 @@ export default {
     currentItem: {},           // 当前操作的对象
     previwModalVisible: false, // 最近结果预览弹出窗的显示状态
     previwModalLoading: false, // 最近结果预览弹窗加载状态
+    field: '',                 // 勾选搜索的领域
+    keyword: '',               // 搜索框关键字
   },
 
   subscriptions: {
+
+    setup({ dispatch, history }) {
+      history.listen(location => {
+        if (location.pathname === '/analysis/csvchart') {
+          dispatch({
+            type: 'query',
+            payload: location.query,
+          });
+        }
+      });
+    },
 
   },
 
@@ -24,7 +38,13 @@ export default {
 
     *query( {payload}, {put, call, select} ){
       yield put({ type: 'showLoading' });
-      const { data } = yield call(querySvrResultChart);
+
+      yield put({
+        type: 'updateQueryKey',
+        payload: { page: 1, field: '', keyword: '', ...payload },
+      });
+
+      const { data } = yield call(querySvrResultChart, parse(payload));
       if (data) {
         yield put({
           type: 'querySuccess',
@@ -48,35 +68,20 @@ export default {
     },
 
 
-    showModal(){},   // 控制 Modal 显示状态的 reducer
-    hideModal(){},
+    showModal(state){
+      return ({ ...state, previwModalVisible: true});
+    },   // 控制 Modal 显示状态的 reducer
+
+    hideModal(state){
+      return({ ...state, previwModalVisible: false});
+    },
 
     querySuccess(state, action){
-      //mock
-      // const AnalysisResultListProps={
-      //   total: 3,
-      //   current: 1,
-      //   loading: false,
-      //   list: [
-      //     {
-      //       name: 'sqlserver_2X8',
-      //       counts: 6,
-      //       lastresult: '201612301230',
-      //     },
-      //     {
-      //       name: 'sqlserver_4X16',
-      //       counts: 5,
-      //       lastresult: '201612301230',
-      //     },
-      //     {
-      //       name: 'sqlserver_8X24',
-      //       counts: 2,
-      //       lastresult: '201612301230',
-      //     },
-      //   ],
-      // };
-
       return({ ...state, ...action.payload, loading: false});
+    },
+
+    updateQueryKey(state, action) {
+      return({ ...state, ...action.payload });
     },
 
   },

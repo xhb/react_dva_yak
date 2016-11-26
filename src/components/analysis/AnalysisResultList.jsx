@@ -24,7 +24,11 @@ class AnalysisResultList extends Component {
         title: '最新结果',
         dataIndex: 'lastresult',
         key: 'lastresult',
-        render: (text) => <a href="#">{text}</a>,
+        render: (text, record) => (
+          //http://www.jianshu.com/p/9780a302e509
+          <a onClick={()=>this.props.handlePreview(record)} >{text}</a>
+        ),
+
       }, {
         title: '操作',
         key: 'operation',
@@ -40,7 +44,7 @@ class AnalysisResultList extends Component {
       total: this.props.total,
       current: this.props.current,
       pageSize: 10,
-      onChange: ()=>{},
+      onChange: (page)=>{this.props.onPageChange(page)},
     };
 
     return (
