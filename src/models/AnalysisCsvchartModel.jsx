@@ -1,4 +1,4 @@
-import querySvrResultChart from '../services/resultChart';
+import { querySvrResultChart, queryChartsOnPreview } from '../services/resultChart';
 import { parse } from 'qs';
 
 export default {
@@ -11,10 +11,17 @@ export default {
     loading: false,            // 控制加载状态
     current: null,             // 当前分页信息
     currentItem: {},           // 当前操作的对象
-    previwModalVisible: false, // 最近结果预览弹出窗的显示状态
-    previwModalLoading: false, // 最近结果预览弹窗加载状态
+    previewModalVisible: false, // 最近结果预览弹出窗的显示状态
     field: '',                 // 勾选搜索的领域
     keyword: '',               // 搜索框关键字
+    previewModalTital: '',      // 预览框标题名字
+    previewModalLoading: false, // 最近结果预览弹窗加载状态
+    previewModalChartList: [],  // 存放画图数据，以下数据为例，表示两个图表数据，time或Time做x轴，其他做y轴
+                               // [
+                               //   { node: 1, data: [ [], [] ] },
+                               //   { node: 2, data: [ [], [] ] }
+                               // ]
+
   },
 
   subscriptions: {
@@ -57,6 +64,25 @@ export default {
       }
     },
 
+    //查询对应的测试案例结果预览时序图
+
+    *queryChartsOnPreviewModal({payload}, {put, call, select}){
+      yield put({type: 'showModal'});
+      yield put({type: 'showModalLoading'});
+      yield put({
+        type: 'updateModalTital',
+        payload: payload
+      });
+      const { data } = yield call(queryChartsOnPreview, parse(payload));
+      if(data){
+        yield put({
+          type: 'queryPreviewDataSuccess',
+          payload: data.data
+        });
+      }
+    },
+
+
   },
 
   reducers: {
@@ -69,11 +95,24 @@ export default {
 
 
     showModal(state){
-      return ({ ...state, previwModalVisible: true});
+      return ({ ...state, previewModalVisible: true});
     },   // 控制 Modal 显示状态的 reducer
 
+    showModalLoading(state){
+      return({...state, previewModalLoading: true});
+    },
+
+    updateModalTital(state, action){
+      return({...state, previewModalTital: (action.payload.name+'->'+action.payload.lastresult)});
+    },
+
+    queryPreviewDataSuccess(state, action){
+      return({...state, previewModalChartList: action.payload, previewModalLoading: false});
+    },
+
+
     hideModal(state){
-      return({ ...state, previwModalVisible: false});
+      return({ ...state, previewModalVisible: false});
     },
 
     querySuccess(state, action){

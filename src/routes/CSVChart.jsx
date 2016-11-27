@@ -21,10 +21,12 @@ class  CSVChart extends Component {
       loading,
       current,
       currentItem,
-      previwModalVisible,
-      previwModalLoading,
+      previewModalVisible,
+      previewModalLoading,
       field,
       keyword,
+      previewModalChartList,
+      previewModalTital,
     } = this.props.analysisCsvChart ;
 
     const dispatch = this.props.dispatch;
@@ -45,7 +47,8 @@ class  CSVChart extends Component {
 
       handlePreview(record){
         dispatch({
-          type: 'analysisCsvChart/showModal'
+          type: 'analysisCsvChart/queryChartsOnPreviewModal',
+          payload: record
         });
       },
     }
@@ -62,7 +65,11 @@ class  CSVChart extends Component {
     }
 
     const previewModalProps = {
-      previwModalVisible,
+
+      previewModalTital,
+      previewModalVisible,
+      previewModalLoading,
+      previewModalChartList,
 
       handlePreviewOk(){
         dispatch({

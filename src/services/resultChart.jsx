@@ -6,4 +6,8 @@ async function querySvrResultChart(params) {
   return request(`/api/resultchart?${qs.stringify(params)}`);
 }
 
-export default querySvrResultChart;
+async function queryChartsOnPreview(params) {
+  return request(`/api/csvpreviewdata?${qs.stringify(params)}`)
+}
+
+export default { querySvrResultChart, queryChartsOnPreview };
