@@ -42,10 +42,15 @@ function getYakCaseInfo(){
 };
 
 function readCsvFile(file){
-  let content = fs.readFileSync(file);
-  let obj = csvParse(content, {columns: true});
-  let objData = {filename: path.basename(file), data: obj};
-  return objData;
+  try{
+    let content = fs.readFileSync(file);
+    let obj = csvParse(content, {columns: true});
+    let objData = {filename: path.basename(file), data: obj};
+    return objData;
+  }catch(e){
+    console.log(e);
+    return {filename: path.basename(file), data: []};
+  }
 };
 
 module.exports = {
