@@ -31,7 +31,8 @@ function getYakCaseInfo(){
         id: item,
         name: item,
         counts: resultCount.length,
-        lastresult: resultCount[resultCount.length - 1]
+        lastresult: resultCount[resultCount.length - 1],
+        allresult: resultCount
       });
 
     }

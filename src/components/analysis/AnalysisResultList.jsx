@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import { Table, message, Popconfirm } from 'antd';
+import { Table, message, Popconfirm, Menu, Dropdown, Icon } from 'antd';
 
 class AnalysisResultList extends Component {
 
@@ -32,11 +32,35 @@ class AnalysisResultList extends Component {
       }, {
         title: '操作',
         key: 'operation',
-        render: (text, record) => (
-          <p>
-            <a onClick={()=>{}}>查看全部结果</a>
-          </p>
-        ),
+        dataIndex: 'allresult',
+        render: (text, record) => {
+          let allResult = [];
+          record.allresult.forEach((result, index)=>{
+            let newRecord = {};
+            newRecord.name = record.name;
+            newRecord.lastresult = result
+            allResult.push(
+              <Menu.Item key={index}>
+                <a onClick={()=>this.props.handlePreview(newRecord)}>{result}</a>
+              </Menu.Item>
+            );
+          });
+
+          const menu = (
+            <Menu>
+              {allResult}
+            </Menu>
+          );
+
+          return(
+            <Dropdown overlay={menu} trigger={['click']}>
+              <a className="ant-dropdown-link" href="#">
+                查看全部结果<Icon type="down" />
+              </a>
+            </Dropdown>
+          );
+
+        },
       }];
 
     // 定义分页对象

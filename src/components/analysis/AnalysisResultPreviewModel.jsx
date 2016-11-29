@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import YAreaChart from '../charts/YAreaChart';
-import { Modal, Spin, Collapse } from 'antd';
+import {Alert, Modal, Spin, Collapse, message } from 'antd';
 import _ from "underscore";
 
 const Panel = Collapse.Panel;
@@ -9,6 +9,10 @@ class AnalysisResultPreviewModel extends Component {
 
   constructor(props){
     super(props);
+  }
+
+  onRenderingTiptop(){
+    message.loading("请等待图像渲染完成...", 0);
   }
 
   render(){
@@ -39,7 +43,7 @@ class AnalysisResultPreviewModel extends Component {
               dataSeries.push(_.pick(record, time, tpm));
           });
           yChartList.push(
-            <div key={i}>
+            <div className="yAreaChart" key={i}>
               <YAreaChart key={i} data={dataSeries}/>
             </div>
           );
@@ -61,8 +65,15 @@ class AnalysisResultPreviewModel extends Component {
       );
     });
 
+    const TipTopLoading = ()=>{
+      if(this.props.previewModalLoading){
+        message.destroy();
+        message.success("获取原始数据中...");
+      }
+      return(null);
+    }
+
     return(
-      <div>
         <Modal
           title={this.props.previewModalTital}
           visible={this.props.previewModalVisible}
@@ -70,12 +81,16 @@ class AnalysisResultPreviewModel extends Component {
           onCancel={this.props.handlePreviewCancel}
           width={1100}
         >
-        <Spin tip="加载中......" size="large" spinning={this.props.previewModalLoading} >
-          <Collapse>{nodeCollapse}</Collapse>
-        </Spin>
-
+          <TipTopLoading />
+          <Collapse onChange={ ()=>{
+                message.destroy();
+                message.warning("打开结果文件时，图像渲染比较慢，可能要30s，请耐心等待。", 5)
+              }
+            }
+          >
+            {nodeCollapse}
+          </Collapse>
         </Modal>
-      </div>
     );
   }
 

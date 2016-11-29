@@ -84,12 +84,16 @@ class  CSVChart extends Component {
       }
     };
 
+    //每次都重新创建一个preview modal组件, 不然modal层做diff会导致浮动层卡顿
+    //
+    const ResultPreviewModelGen = () =>
+        <AnalysisResultPreviewModel {...previewModalProps} />;
 
     return(
       <MainLayout location={this.props.location}>
         <AnalysisResultSearch { ...userSearchProps } />
         <AnalysisResultList { ...AnalysisResultListProps } />
-        <AnalysisResultPreviewModel {...previewModalProps} />
+        <ResultPreviewModelGen />
       </MainLayout>
     );
   }

@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import _ from "underscore";
+import {Spin, Alert} from 'antd';
 
 // const data = [
 //       {Time: '00:10:01', uv: 4000},
