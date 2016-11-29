@@ -58,8 +58,11 @@ class MainLayout extends Component {
           >
 
             <Menu.Divider/>
-            <Menu.Item key="dashboard" className={styles.antMenuItem}>
-              <Icon type="pie-chart" /><span className={styles.navText}>运行情况</span>
+            <Menu.Item key="_dashboard" className={styles.antMenuItem}>
+              <Link to="/dashboard">
+                <Icon type="pie-chart" />
+                <span className={styles.navText}>运行情况</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="setting" className={styles.antMenuItem}>
               <Icon type="setting" /><span className={styles.navText}>用户场景</span>
@@ -68,13 +71,20 @@ class MainLayout extends Component {
               <Icon type="laptop" /><span className={styles.navText}>场景执行</span>
             </Menu.Item>
 
+            <Menu.Item  key="_analysis" className={styles.antMenuItem} >
+              <Link to="/analysis">
+                <Icon type="area-chart" />
+                <span className={styles.navText} >数据分析</span>
+              </Link>
+            </Menu.Item>
+
             <SubMenu
               className={styles.antMenuItem}
-              key="analysis"
+              key="generate_report"
               title={
                       <span>
-                        <Icon type="area-chart" />
-                        <span className={styles.navText} ref="analysisRef" >结果分析</span>
+                        <Icon type="export" />
+                        <span className={styles.navText} ref="generate_report" >生成报告</span>
                       </span>
                     }
               disabled={collapse}
@@ -82,11 +92,8 @@ class MainLayout extends Component {
             >
 
               <MenuItemGroup  title="报告类型">
-                <Menu.Item  key="_analysis_csvchart">
-                    <Link to="/analysis/csvchart">时序图表</Link>
-                </Menu.Item>
-                <Menu.Item  key="2">表格类型</Menu.Item>
-                <Menu.Item  key="3">JSON类型</Menu.Item>
+                <Menu.Item  key="1">表格类型</Menu.Item>
+                <Menu.Item  key="2">JSON类型</Menu.Item>
               </MenuItemGroup>
 
             </SubMenu>

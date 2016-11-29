@@ -10,6 +10,7 @@ class  DashBoard extends Component {
   render(){
     return(
       <MainLayout location={this.props.location}>
+        <p>还需要建设...</p>
       </MainLayout>
     );
   }

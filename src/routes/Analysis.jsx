@@ -7,7 +7,7 @@ import AnalysisResultPreviewModel from '../components/analysis/AnalysisResultPre
 import AnalysisResultSearch from '../components/analysis/AnalysisResultSearch';
 
 
-class  CSVChart extends Component {
+class Analysis extends Component {
 
   constructor(props){
      super(props);
@@ -40,7 +40,7 @@ class  CSVChart extends Component {
 
       onPageChange(page) {
         dispatch(routerRedux.push({
-          pathname: '/analysis/csvchart',
+          pathname: '/analysis',
           query: { field, keyword, page },
         }));
       },
@@ -58,7 +58,7 @@ class  CSVChart extends Component {
       keyword,
       onSearch(fieldsValue) {
         dispatch(routerRedux.push({
-          pathname: '/analysis/csvchart',
+          pathname: '/analysis',
           query: { ...fieldsValue, page: 1 },
         }));
       }
@@ -104,4 +104,4 @@ function mapStateToProps( { analysisCsvChart } ){
   return { analysisCsvChart };
 }
 
-export default connect(mapStateToProps)(CSVChart);
+export default connect(mapStateToProps)(Analysis);

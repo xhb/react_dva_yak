@@ -28,7 +28,7 @@ export default {
 
     setup({ dispatch, history }) {
       history.listen(location => {
-        if (location.pathname === '/analysis/csvchart') {
+        if (location.pathname === '/analysis') {
           dispatch({
             type: 'query',
             payload: location.query,
