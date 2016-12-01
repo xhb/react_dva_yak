@@ -47,7 +47,7 @@ class MainLayout extends Component {
     return (
       <div className={collapse ? (styles.antLayoutAsideCollapse + " " +  styles.antLayoutAside ) : styles.antLayoutAside} >
         <aside className={styles.antLayoutSider} >
-          <div className={styles.antLayoutLogo}>Yak</div>
+          <div className={styles.antLayoutLogo}></div>
 
           <Menu
              mode="inline"
@@ -84,7 +84,7 @@ class MainLayout extends Component {
               title={
                       <span>
                         <Icon type="export" />
-                        <span className={styles.navText} ref="generate_report" >生成报告</span>
+                        <span className={styles.navText} ref="generate_report" >导出报告</span>
                       </span>
                     }
               disabled={collapse}
@@ -92,14 +92,14 @@ class MainLayout extends Component {
             >
 
               <MenuItemGroup  title="报告类型">
-                <Menu.Item  key="1">表格类型</Menu.Item>
-                <Menu.Item  key="2">JSON类型</Menu.Item>
+                <Menu.Item  key="1">PDF类型</Menu.Item>
+                <Menu.Item  key="2">HTML类型</Menu.Item>
               </MenuItemGroup>
 
             </SubMenu>
 
             <Menu.Item key="folder" className={styles.antMenuItem}>
-              <Icon type="folder" /><span className={styles.navText}>测试报告</span>
+              <Icon type="folder" /><span className={styles.navText}>历史存档</span>
             </Menu.Item>
           </Menu>
           <div className={styles.antAsideAction} onClick={this.onCollapseChange.bind(this)}>

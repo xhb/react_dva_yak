@@ -9,10 +9,8 @@
 .antLayoutAside .antLayoutLogo {
   width: 150px;
   height: 32px;
-  text-align: center;
-  font-size: 24px;
-  font-color: white;
   background: #333;
+  background: url(../../assets/logo_normal.png) no-repeat center 0;
   border-radius: 6px;
   margin: 16px 24px 16px 28px;
   transition: all 0.3s ease;
@@ -24,6 +22,7 @@
   font-color: white;
   font-size: 24px;
   width: 42px;
+  background: url(../../assets/logo_collapse.png) no-repeat center 0;
   margin: 10px;
   transition: all 0.3s ease;
 }
