@@ -13,9 +13,15 @@ class YTable extends Component {
     super(props);
     YtableSelectColumns = this.props.columns;
     this.state = {
-      selectCols: this.props.columns,
-      showTable: true,
-      showBar: false
+      yTableNS:
+        {
+          //这里有个坑，不能默认全选，不然onRowsSelectChange的参数会有问题
+          selectedRowKeys: [],
+          selectCols: this.props.columns,
+          showTable: true,
+          showBar: false,
+          currentTablePage: 1
+        }
     };
   }
 
@@ -25,18 +31,22 @@ class YTable extends Component {
 
   handleTableReplot(){
     this.setState({
-      ...this.state,
-      selectCols: YtableSelectColumns,
-      showTable: true,
-      showBar: false
+      yTableNS: {
+        ...this.state.yTableNS,
+        selectCols: YtableSelectColumns,
+        showTable: true,
+        showBar: false
+      }
     });
   }
 
   handleBarPlot(){
     this.setState({
-      ...this.state,
-      showTable: false,
-      showBar: true
+      yTableNS: {
+        ...this.state.yTableNS,
+        showTable: false,
+        showBar: true
+      }
     });
   }
 
@@ -45,14 +55,22 @@ class YTable extends Component {
   }
 
   genBarchartData(){
-    let barChartData = this.props.data.map(item=>_.pick(item, ...this.state.selectCols));
+    let selectRowsIndexs = this.state.yTableNS.selectedRowKeys;
+    let filterData = this.props.data.filter(function(item, index, obj) {
+      return (selectRowsIndexs.indexOf(index) > -1);
+    });
+    let barChartData = filterData.map(item=>_.pick(item, ...this.state.yTableNS.selectCols));
     let XAxis = _.keys(barChartData[0])[0];
     let parseChartData = barChartData.map((item)=>{
       return(
         _.mapObject(item, (val, key)=>{
           if( key != XAxis){
             // return(Number(val));
-            return(parseFloat(val));
+            let result_value = parseFloat(val);
+            if( !isFinite(result_value) || isNaN(result_value) ){
+              result_value = 0;
+            }
+            return(result_value);
           }else{
             return val;
           }
@@ -64,25 +82,36 @@ class YTable extends Component {
 
   genBarchartXAxis(){
     return(
-       <XAxis dataKey={this.state.selectCols[0]}/>
+       <XAxis dataKey={this.state.yTableNS.selectCols[0]}/>
     );
   }
 
   genBarchartTiptop(){
     let yAxisTiptop = [];
-    for(let i = 1; i < this.state.selectCols.length; i++){
-      yAxisTiptop.push(<Bar dataKey={this.state.selectCols[i]} fill={this.getRandomColor()}/>);
+    for(let i = 1; i < this.state.yTableNS.selectCols.length; i++){
+      yAxisTiptop.push(<Bar dataKey={this.state.yTableNS.selectCols[i]} fill={this.getRandomColor()}/>);
     }
     return(yAxisTiptop);
   }
 
   render(){
 
-    let data = this.props.data
     let table_cols = this.props.columns
     let options = table_cols.map((item)=>{
       return( <Option key={item}>{item}</Option> );
     });
+
+    let row_Selection = {
+      selectedRowKeys: this.state.yTableNS.selectedRowKeys,
+      onChange: (selectRows) => {
+                  this.setState({
+                    yTableNS: {
+                      ...this.state.yTableNS,
+                      selectedRowKeys: selectRows
+                    }
+                  });
+                },
+    }
 
     const GenColumnsCheckboxs = ()=>{
       return(
@@ -111,23 +140,25 @@ class YTable extends Component {
     return(
       <div className={styles.ytableWrapper}>
         <GenColumnsCheckboxs />
-        <div className={this.state.showTable ? styles.yTableShow : styles.yTableHide} >
+        <div className={this.state.yTableNS.showTable ? styles.yTableShow : styles.yTableHide} >
           <Table
             columns={
-              this.state.selectCols.map((item, i)=>{
+              this.state.yTableNS.selectCols.map((item, i)=>{
                 return({ key: i, title: item, width: 150, dataIndex: item });
               })
             }
+            rowKey={(record, index)=>index}
             bordered
-            dataSource={data}
-            pagination={{ pageSize: 50 }}
+            dataSource={this.props.data}
+            pagination={{ pageSize: 200}}
             scroll={
-              { x: this.state.selectCols.length * 150, y: 400 }
+              { x: this.state.yTableNS.selectCols.length * 150, y: 400 }
             }
+            rowSelection={row_Selection}
             size="middle"
           />
         </div>
-        <div className={ this.state.showBar ? styles.yBarShow : styles.yBarHide }>
+        <div className={ this.state.yTableNS.showBar ? styles.yBarShow : styles.yBarHide }>
           <BarChart
             width={1000}
             height={400}
@@ -139,7 +170,7 @@ class YTable extends Component {
            <RTooltip/>
            <Legend />
            {this.genBarchartTiptop.bind(this)()}
-           <Brush dataKey={this.state.selectCols[0]} height={30} stroke="#8884d8"/>
+           <Brush dataKey={this.state.yTableNS.selectCols[0]} height={30} stroke="#8884d8"/>
           </BarChart>
         </div>
       </div>

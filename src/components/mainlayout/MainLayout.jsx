@@ -21,7 +21,7 @@ class MainLayout extends Component {
 
   onCollapseChange() {
     if(!this.state.collapse){
-      let subMenuAnalysisText = this.refs.analysisRef;
+      let subMenuAnalysisText = this.refs.generate_report;
       if(this.state.SubMenuAnaOpened){
         subMenuAnalysisText.click();
       }

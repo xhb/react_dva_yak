@@ -5,16 +5,6 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
 import _ from "underscore";
 import {Spin, Alert} from 'antd';
 
-// const data = [
-//       {Time: '00:10:01', uv: 4000},
-//       {Time: '00:10:02', uv: 3000},
-//       {Time: '00:10:03', uv: 2000},
-//       {Time: '00:10:04', uv: 2780},
-//       {Time: '00:10:05', uv: 1890},
-//       {Time: '00:10:06', uv: 2390},
-//       {Time: '00:10:07', uv: 3490},
-// ];
-
 class YAreaChart extends Component {
 
   constructor(props){
@@ -30,7 +20,11 @@ class YAreaChart extends Component {
     let newdata = this.props.data.map( (record) => {
       return _.mapObject(record, (val, key)=>{
         if(key!=time){
-          return parseInt(val);
+          let parseResult = parseInt(val);
+          if(!isFinite(parseResult) || isNaN(parseResult)){
+            parseResult = 0;
+          }
+          return parseResult;
         }else{
           return val;
         }

@@ -77,14 +77,6 @@ class AnalysisResultPreviewModel extends Component {
       );
     });
 
-    const TipTopLoading = ()=>{
-      if(this.props.previewModalLoading){
-        message.destroy();
-        message.success("获取原始数据中...");
-      }
-      return(null);
-    }
-
     return(
         <Modal
           title={this.props.previewModalTital}
@@ -93,7 +85,6 @@ class AnalysisResultPreviewModel extends Component {
           onCancel={this.props.handlePreviewCancel}
           width={1100}
         >
-          <TipTopLoading />
           <Collapse onChange={ ()=>{
                 message.destroy();
                 message.warning("打开结果文件时，图像渲染比较慢，可能要30s，请耐心等待。", 5)
