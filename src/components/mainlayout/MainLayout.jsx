@@ -132,4 +132,12 @@ class MainLayout extends Component {
 
 }
 
+//属性定义
+MainLayout.PropTypes = {
+  //当前的url路径
+  location: PropTypes.any,
+  //布局下的子页面
+  children: PropTypes.any
+}
+
 export default MainLayout;

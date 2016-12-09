@@ -110,6 +110,16 @@ class Analysis extends Component {
 
 }
 
+//属性定义
+Analysis.PropTypes = {
+  //当前的url路径信息
+  location: PropTypes.any,
+  //redux提供的dispatch
+  dispatch: PropTypes.func,
+  //整个数据分析模型的状态数据
+  analysisCsvChart: PropTypes.array
+}
+
 function mapStateToProps( { analysisCsvChart } ){
   return { analysisCsvChart };
 }

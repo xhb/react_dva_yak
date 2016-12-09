@@ -11,7 +11,6 @@ class AnalysisCaseReport extends Component {
   }
 
   render(){
-
     return(
       <MainLayout location={this.props.location}>
         <AnalysisReportList />

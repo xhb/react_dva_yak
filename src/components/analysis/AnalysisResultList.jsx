@@ -10,9 +10,7 @@ class AnalysisResultList extends Component {
   }
 
   render(){
-
     //结果列表结构
-
     const columns = [{
         title: '案例名称',
         dataIndex: 'name',
@@ -96,6 +94,25 @@ class AnalysisResultList extends Component {
   }
 
 }
+
+//属性定义
+AnalysisResultList.propTypes = {
+  //处理结果预览浮动层
+  handlePreview: PropTypes.func,
+  //处理表格的分页
+  onPageChange: PropTypes.func,
+  //处理对比报告链接
+  handleReportMaker: PropTypes.func,
+  //测试案例表格数据源头
+  dataSource: PropTypes.array,
+  //获取测试案例表格数据时的过度状态
+  loading: PropTypes.any,
+  //总的测试案例数目
+  total: PropTypes.any,
+  //当前的分页在哪一页
+  current: PropTypes.any,
+};
+
 
 export default AnalysisResultList;
 

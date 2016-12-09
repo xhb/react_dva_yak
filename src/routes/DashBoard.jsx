@@ -17,4 +17,9 @@ class  DashBoard extends Component {
 
 }
 
+DashBoard.PropTypes = {
+  //当前的url信息
+  location: PropTypes.any
+}
+
 export default DashBoard;

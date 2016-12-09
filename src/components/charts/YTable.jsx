@@ -5,6 +5,8 @@ import styles from './YTable.less';
 import _ from "underscore";
 
 const Option = Select.Option;
+
+//表格选择了哪些 列 作为数据
 let   YtableSelectColumns = [];
 
 class YTable extends Component {
@@ -16,10 +18,15 @@ class YTable extends Component {
       yTableNS:
         {
           //这里有个坑，不能默认全选，不然onRowsSelectChange的参数会有问题
+          //表格中选择哪些 行 作为画柱状图的数据
           selectedRowKeys: [],
+          //表格中选择哪些 列 作为画柱状图的数据
           selectCols: this.props.columns,
+          //控制表格图的显示和关闭
           showTable: true,
+          //控制柱状图的显示和关闭
           showBar: false,
+          //表格分页数当前选中的页数
           currentTablePage: 1
         }
     };
@@ -177,6 +184,14 @@ class YTable extends Component {
     );
   }
 
+}
+
+//属性定义
+YTable.PropTypes = {
+  //预览报告数据
+  data: PropTypes.array,
+  //过滤选择的数据列表项
+  columns: PropTypes.array
 }
 
 export default YTable;

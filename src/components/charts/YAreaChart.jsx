@@ -44,4 +44,10 @@ class YAreaChart extends Component {
   }
 }
 
+//属性定义
+YAreaChart.PropTypes = {
+  //区域时序图的画图数据
+  data: PropTypes.array
+}
+
 export default YAreaChart;

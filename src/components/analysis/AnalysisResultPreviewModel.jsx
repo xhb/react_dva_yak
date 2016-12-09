@@ -99,5 +99,19 @@ class AnalysisResultPreviewModel extends Component {
 
 }
 
+//属性定义
+AnalysisResultPreviewModel.PropTypes = {
+  //预览浮动层保存的图标数据
+  previewModalChartList: PropTypes.array,
+  //预览浮动层的标题
+  previewModalTital: PropTypes.any,
+  //浮动层显示的控制开关
+  previewModalVisible: PropTypes.bool,
+  //浮动层点击确定按钮回调
+  handlePreviewOk: PropTypes.func,
+  //浮动层点击取消按钮回调
+  handlePreviewCancel: PropTypes.func
+}
+
 export default AnalysisResultPreviewModel;
 

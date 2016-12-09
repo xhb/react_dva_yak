@@ -24,7 +24,6 @@ class AnalysisResultSearch extends Component {
       field,
       keyword,
       onSearch,
-      onAdd,
       form: {
         getFieldDecorator,
         validateFields,
@@ -62,11 +61,15 @@ class AnalysisResultSearch extends Component {
 
 }
 
+//属性定义
 AnalysisResultSearch.propTypes = {
+  //antd传递进来的表单对象
   form: PropTypes.object.isRequired,
+  //点击搜索按钮进行的回调
   onSearch: PropTypes.func,
-  onAdd: PropTypes.func,
+  //需要进行搜索的表格列项
   field: PropTypes.string,
+  //需要进行搜索的关键字
   keyword: PropTypes.string,
 };
 
