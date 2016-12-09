@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { Table, message, Popconfirm, Menu, Dropdown, Icon } from 'antd';
+import styles from "./AnalysisResultList.less";
 
 class AnalysisResultList extends Component {
 
@@ -53,11 +54,18 @@ class AnalysisResultList extends Component {
           );
 
           return(
-            <Dropdown overlay={menu} trigger={['click']}>
-              <a className="ant-dropdown-link" href="#">
-                查看全部结果<Icon type="down" />
-              </a>
-            </Dropdown>
+            <div className={styles.operation}>
+              <Dropdown className={styles.item} overlay={menu} trigger={['click']}>
+                <a className="ant-dropdown-link" href="#">
+                  查看全部结果<Icon type="down" />
+                </a>
+              </Dropdown>
+              <span className={styles.item} >
+                <a className="ant-dropdown-link" onClick={()=>this.props.handleReportMaker(record.name)} >
+                  制作对比报告<Icon type="swap" />
+                </a>
+              </span>
+            </div>
           );
 
         },

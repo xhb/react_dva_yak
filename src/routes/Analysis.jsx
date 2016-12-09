@@ -38,6 +38,7 @@ class Analysis extends Component {
       dataSource: list,
       loading: loading,
 
+      //控制分页数据
       onPageChange(page) {
         dispatch(routerRedux.push({
           pathname: '/analysis',
@@ -45,6 +46,15 @@ class Analysis extends Component {
         }));
       },
 
+      //控制每个场景的报告制作
+      handleReportMaker(caseName){
+        dispatch(routerRedux.push({
+          pathname: '/analysis/casereport',
+          query: { case: caseName },
+        }));
+      },
+
+      //控制数据图表的预览
       handlePreview(record){
         dispatch({
           type: 'analysisCsvChart/queryChartsOnPreviewModal',
