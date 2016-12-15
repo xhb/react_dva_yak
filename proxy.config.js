@@ -1,10 +1,10 @@
 'use strict';
 
-const mock = {};
+const server = {};
 
-require('fs').readdirSync(require('path').join(__dirname + '/mock'))
+require('fs').readdirSync(require('path').join(__dirname + '/server'))
   .forEach(function (file) {
-    Object.assign(mock, require('./mock/' + file));
+    Object.assign(server, require('./server/' + file));
   });
 
-module.exports = mock;
+module.exports = server;

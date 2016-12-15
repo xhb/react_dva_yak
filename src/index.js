@@ -11,6 +11,7 @@ const app = dva();
 
 // 3. Model
 app.model(require('./models/AnalysisCsvchartModel'));
+app.model(require('./models/AnalysisReportMaker'));
 
 // 4. Router
 app.router(require('./router'));

@@ -6,10 +6,13 @@ var fs = require('fs');
 var path = require('path');
 var mongoose = require('mongoose');
 var logger = require('pomelo-logger').getLogger('mongodb-log');
-var options = require('../../db.config');
+var options = require('../config/db.config');
 
 var dbURL = "mongodb://" + options.db_user + ":" + options.db_pwd + "@" + options.db_host + ":" + options.db_port + "/" + options.db_name;
-mongoose.connect(dbURL);
+
+console.log(dbURL);
+
+mongoose.connect(dbURL,{auth:{authdb:"admin"}});
 
 mongoose.connection.on('connected', function (err) {
     if (err) logger.error('Database connection failure');
@@ -32,7 +35,7 @@ process.on('SIGINT', function () {
 
 var DB = function () {
     this.mongoClient = {};
-    var filename = path.join(path.dirname(__dirname).replace('app', ''), 'config/table.json');
+    var filename = path.join(path.dirname(__dirname), '/config/table.json');
     this.tabConf = JSON.parse(fs.readFileSync(path.normalize(filename)));
 };
 

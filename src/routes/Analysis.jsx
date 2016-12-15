@@ -49,8 +49,8 @@ class Analysis extends Component {
       //控制每个场景的报告制作
       handleReportMaker(caseName){
         dispatch(routerRedux.push({
-          pathname: '/analysis/casereport',
-          query: { case: caseName },
+          pathname: '/analysis/scense_report',
+          query: { scense: caseName },
         }));
       },
 

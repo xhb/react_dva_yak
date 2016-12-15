@@ -4,7 +4,7 @@ import { routerRedux } from 'dva/router';
 import MainLayout from '../components/mainlayout/MainLayout';
 import AnalysisReportList from '../components/analysis/report/reportList';
 
-class AnalysisCaseReport extends Component {
+class AnalysisScenseReport extends Component {
 
   constructor(props){
      super(props);
@@ -13,15 +13,18 @@ class AnalysisCaseReport extends Component {
   render(){
     return(
       <MainLayout location={this.props.location}>
-        <AnalysisReportList />
+        <AnalysisReportList
+           dataSource = {this.props.reportList}
+        />
       </MainLayout>
     );
   }
 
 }
 
+
 function mapStateToProps( { AnalysisReportMaker } ){
   return { AnalysisReportMaker };
 }
 
-export default connect(mapStateToProps)(AnalysisCaseReport);
+export default connect(mapStateToProps)(AnalysisScenseReport);

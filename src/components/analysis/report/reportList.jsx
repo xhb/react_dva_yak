@@ -67,6 +67,7 @@ AnalysisReportList.PropTypes = {
   onPageChange: PropTypes.func,
   onDeleteItem: PropTypes.func,
   onEditItem: PropTypes.func,
+  //全部报告列表数据源
   dataSource: PropTypes.array,
   loading: PropTypes.any,
   total: PropTypes.any,

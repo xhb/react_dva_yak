@@ -1,0 +1,13 @@
+{
+
+  "report": {
+    "scensName": "String",
+    "reportName": "String",
+    "testVersion": "String",
+    "scenseDes": "String",
+    "chart": "Object",
+    "selectTime": "Array"
+  }
+
+}
+
