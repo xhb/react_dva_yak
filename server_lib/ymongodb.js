@@ -12,7 +12,7 @@ var dbURL = "mongodb://" + options.db_user + ":" + options.db_pwd + "@" + option
 
 console.log(dbURL);
 
-mongoose.connect(dbURL,{auth:{authdb:"admin"}});
+mongoose.connect(dbURL, {auth:{authdb:"admin"}});
 
 mongoose.connection.on('connected', function (err) {
     if (err) logger.error('Database connection failure');
@@ -260,5 +260,5 @@ DB.prototype.where = function (table_name, conditions, options, callback) {
             }
         });
 };
-
-module.exports = new DB();
+var instance = new DB();
+module.exports = instance;
