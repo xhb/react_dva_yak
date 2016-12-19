@@ -6,6 +6,6 @@
         "testVersion": "String",
         "scenseDes": "String",
         "chart": "Mixed",
-        "selectTime": "Array"
+        "selectTime": "Mixed"
     }
 }

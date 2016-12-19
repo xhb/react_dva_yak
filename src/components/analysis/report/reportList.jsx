@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import { Table, message, Popconfirm, Menu, Dropdown, Icon } from 'antd';
+import { Table, message, Popconfirm, Menu, Dropdown, Icon, Tag } from 'antd';
 
 class AnalysisReportList extends Component {
 
@@ -13,20 +13,26 @@ class AnalysisReportList extends Component {
     //结果列表结构
     const columns = [{
         title: '场景名称',
-        dataIndex: 'name',
-        key: 'name',
+        dataIndex: 'scensName',
+        key: 'scensName',
       }, {
         title: '报告名称',
         dataIndex: 'reportName',
         key: 'reportName',
       }, {
         title: '测试版本',
-        dataIndex: 'version',
-        key: 'version',
-      }, {
+        dataIndex: 'testVersion',
+        key: 'testVersion',
+      },{
+        title: '选用数据',
+        key: 'selectTime',
+        dataIndex: 'selectTime',
+        render: (text, record) => {
+          return text.map((e)=>( <Tag>{e}</Tag> ));
+        }
+      },{
         title: '操作',
         key: 'operation',
-        dataIndex: 'allresult',
         render: (text, record) => (
           <p>
             <a onClick={() => this.props.onEditItem(record)}>编辑</a>
@@ -38,14 +44,6 @@ class AnalysisReportList extends Component {
         )
       }];
 
-    // 定义分页对象
-    const pagination = {
-      total: this.props.total,
-      current: this.props.current,
-      pageSize: 10,
-      onChange: (page)=>{this.props.onPageChange(page)},
-    };
-
     return (
       <div>
         <Table
@@ -56,7 +54,6 @@ class AnalysisReportList extends Component {
           dataSource={this.props.dataSource}
           loading={this.props.loading}
           rowKey={record => record.id}
-          pagination={pagination}
         />
       </div>
     );
@@ -64,14 +61,11 @@ class AnalysisReportList extends Component {
 };
 
 AnalysisReportList.PropTypes = {
-  onPageChange: PropTypes.func,
   onDeleteItem: PropTypes.func,
   onEditItem: PropTypes.func,
   //全部报告列表数据源
   dataSource: PropTypes.array,
   loading: PropTypes.any,
-  total: PropTypes.any,
-  current: PropTypes.any,
 };
 
 export default AnalysisReportList;

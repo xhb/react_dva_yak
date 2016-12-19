@@ -11,10 +11,19 @@ class AnalysisScenseReport extends Component {
   }
 
   render(){
+
+    const {
+      reportList,
+      loading,
+      previewModalVisible,
+      previewModalTital,
+      originData,
+    } = this.props.AnalysisReportMaker
+
     return(
       <MainLayout location={this.props.location}>
         <AnalysisReportList
-           dataSource = {this.props.reportList}
+           dataSource = {reportList}
         />
       </MainLayout>
     );
