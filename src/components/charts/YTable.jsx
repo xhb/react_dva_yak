@@ -32,6 +32,7 @@ class YTable extends Component {
     };
   }
 
+
   handleChange(value){
     YtableSelectColumns = value;
   }
@@ -96,7 +97,13 @@ class YTable extends Component {
   genBarchartTiptop(){
     let yAxisTiptop = [];
     for(let i = 1; i < this.state.yTableNS.selectCols.length; i++){
-      yAxisTiptop.push(<Bar dataKey={this.state.yTableNS.selectCols[i]} fill={this.getRandomColor()}/>);
+      yAxisTiptop.push(
+        <Bar
+          key={i}
+          dataKey={this.state.yTableNS.selectCols[i]}
+          fill={this.getRandomColor()}
+        />
+      );
     }
     return(yAxisTiptop);
   }

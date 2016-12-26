@@ -17,6 +17,7 @@ class YAreaChart extends Component {
     const time = _.keys(record)[0];
     const show = _.keys(record)[1];
 
+    //把画图数据中的string类型转化为int类型
     let newdata = this.props.data.map( (record) => {
       return _.mapObject(record, (val, key)=>{
         if(key!=time){
@@ -49,5 +50,11 @@ YAreaChart.PropTypes = {
   //区域时序图的画图数据
   data: PropTypes.array
 }
+
+// data数据格式:
+// [
+//   { time: "xxxxxx", tpm: "123" },
+//   { time: "xxxxxx", tpm: "124" },
+// ]
 
 export default YAreaChart;

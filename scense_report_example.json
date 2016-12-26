@@ -1,0 +1,23 @@
+{
+    "_id": "58520fb1f76883dabd85aa53",
+    "scensName": "io_meter_vs_centos",
+    "reportName": "linux_centos的iometer测试报告",
+    "testVersion": "5.2版本",
+    "scenseDes": "iometer是啥啥啥，这个测试场景干了啥啥啥，牛逼的地方啥啥啥",
+    "chart": [{
+        "resultfile": "yak_result.csv",
+        "type": "table",
+        "opt": {
+            "cols": ["Access Specification Name", "IOps"],
+            "rows": [0, 1, 2, 3]
+        }
+    },{
+        "resultfile": "yak_cpu.csv",
+        "type": "table",
+        "opt": {
+            "cols": ["benchmark", "memory"],
+            "rows": [0, 1, 2, 3]
+        }
+    }],
+    "selectTime": ["201610210256", "201608120235"]
+}

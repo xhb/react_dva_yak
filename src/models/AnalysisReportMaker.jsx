@@ -9,7 +9,9 @@ export default {
 
   state: {
     reportList: [],            // 多个报告的结果列表
+    item: {},             // 一份报告的数据结构描述，在steps中需要缓存数据
     loading: false,            // 控制加载状态
+    modalVisible: false,       // 添加报告的浮动层是否可见
 
     previewModalVisible: false, // 最近结果预览弹出窗的显示状态
     previewModalTital: '',      // 预览框标题名字
@@ -51,6 +53,7 @@ export default {
       }else{
         //todo: 出错怎么显示
       }
+      yield put({type: "hideLoading"});
     },
 
     //
@@ -73,7 +76,18 @@ export default {
     querySuccess(state, action){
       console.log(action);
       return({...state, reportList: action.payload.data});
+    },
+
+    //显示添加报告的浮动层
+    showGenModal(state){
+      return({...state, modalVisible: true});
+    },
+
+    //隐藏添加报告的浮动层
+    hideGenModal(state){
+      return({...state, modalVisible: false});
     }
+
 
   },
 

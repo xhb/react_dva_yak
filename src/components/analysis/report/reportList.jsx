@@ -15,11 +15,11 @@ class AnalysisReportList extends Component {
         title: '场景名称',
         dataIndex: 'scensName',
         key: 'scensName',
-      }, {
+      },{
         title: '报告名称',
         dataIndex: 'reportName',
         key: 'reportName',
-      }, {
+      },{
         title: '测试版本',
         dataIndex: 'testVersion',
         key: 'testVersion',
@@ -28,7 +28,7 @@ class AnalysisReportList extends Component {
         key: 'selectTime',
         dataIndex: 'selectTime',
         render: (text, record) => {
-          return text.map((e)=>( <Tag>{e}</Tag> ));
+          return text.map((e)=>( <Tag key={e} >{e}</Tag> ));
         }
       },{
         title: '操作',
@@ -37,7 +37,7 @@ class AnalysisReportList extends Component {
           <p>
             <a onClick={() => this.props.onEditItem(record)}>编辑</a>
             &nbsp;
-            <Popconfirm title="确定要删除吗？" onConfirm={() => this.props.onDeleteItem(record.id)}>
+            <Popconfirm title="确定要删除吗？" onConfirm={() => this.props.onDeleteItem(record._id)}>
               <a>删除</a>
             </Popconfirm>
           </p>
@@ -53,7 +53,7 @@ class AnalysisReportList extends Component {
           columns={columns}
           dataSource={this.props.dataSource}
           loading={this.props.loading}
-          rowKey={record => record.id}
+          rowKey={record => record._id}
         />
       </div>
     );
@@ -61,10 +61,13 @@ class AnalysisReportList extends Component {
 };
 
 AnalysisReportList.PropTypes = {
+  //删除一份报告
   onDeleteItem: PropTypes.func,
+  //编辑一份报告
   onEditItem: PropTypes.func,
   //全部报告列表数据源
   dataSource: PropTypes.array,
+  //访问api时过场加载
   loading: PropTypes.any,
 };
 
