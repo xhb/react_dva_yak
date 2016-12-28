@@ -38,7 +38,10 @@ class AnalysisResultShow extends Component {
       chooseAreaCharts = _.without(chooseAreaCharts, checkedAreaCharts);
     }
     this.state.areachart = chooseAreaCharts;
-    console.log(this.state);
+    //存在这个函数
+    if(!!this.props.passCurrentState){
+      this.props.passCurrentState(this.state);
+    }
   }
 
   //提取表格数据标记
@@ -50,14 +53,15 @@ class AnalysisResultShow extends Component {
     }else{
       this.state.ytable[tableChartLabel] = null;
     }
-    console.log(this.state);
+    //存在这个函数
+    if(!!this.props.passCurrentState){
+      this.props.passCurrentState(this.state);
+    }
   }
 
 
   render(){
-
     let nodeCollapse = [];
-    console.log(this.props.chartDataList);
     this.props.chartDataList.forEach(function(nodeData, nodeIndex){
       //节点数据一级
       let fileCollapse = [];
@@ -147,6 +151,8 @@ class AnalysisResultShow extends Component {
 AnalysisResultShow.PropTypes = {
   //预览浮动层保存的图标数据
   chartDataList: PropTypes.array,
+  //传递当前的图表状态数据
+  passCurrentState: PropTypes.func,
 }
 
 // chartDataList 数据格式:

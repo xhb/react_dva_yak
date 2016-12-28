@@ -21,7 +21,6 @@ export default {
                                //   { node: 1, data: [ [], [] ] },
                                //   { node: 2, data: [ [], [] ] }
                                // ]
-
   },
 
   subscriptions: {

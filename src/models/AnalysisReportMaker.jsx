@@ -1,7 +1,7 @@
-
+import { querySvrResultChart, queryChartsOnPreview } from '../services/resultChart';
+import { parse } from 'qs';
 import queryScenseReport from '../services/scenseReportMongo';
 
-import { parse } from 'qs';
 
 export default {
 
@@ -16,12 +16,14 @@ export default {
     previewModalVisible: false, // 最近结果预览弹出窗的显示状态
     previewModalTital: '',      // 预览框标题名字
 
-    originData: [],            // 存放画图数据，以下数据为例，表示两个图表数据，time或Time做x轴，其他做y轴
-                               // [
-                               //   { node: 1, data: [ [], [] ] },
-                               //   { node: 2, data: [ [], [] ] }
-                               // ]
-
+    scensName: '',          // 当前选择的场景名称
+    resultDate: '',         // 当前选择的数据日期
+    resultDateList: [],     // 存放该场景总共存放的结果日期
+    tmpData: [],            // 存放画图数据，以下数据为例，表示两个图表数据，time或Time做x轴，其他做y轴
+                            // [
+                            //   { node: 1, data: [ [], [] ] },
+                            //   { node: 2, data: [ [], [] ] }
+                            // ]
   },
 
   subscriptions: {
@@ -43,6 +45,16 @@ export default {
 
     //查询某个场景测试的已有报告列表
     *query({payload}, {put, call, select}){
+
+      //获取结果列表中已经存在的结果日期列表
+      let resultDateList = yield select(state => state.analysisCsvChart.list);
+      let dateList = resultDateList.filter((e)=>{return e.name==payload.scense});
+
+      yield put({
+        type: "loadResultList",
+        payload: dateList[0]
+      });
+
       yield put({type: "showLoading"});
       let { data } = yield call(queryScenseReport, parse(payload));
       if(data.success){
@@ -56,7 +68,18 @@ export default {
       yield put({type: "hideLoading"});
     },
 
-    //
+    //提供查询图标数据的接口, 查询完成把数据填充进state
+    *queryChartData({payload}, {put, call, select}){
+      let scensName = yield select(state => state.AnalysisReportMaker.scensName);
+      let queryStr = {lastresult: payload, name: scensName};
+      const { data } = yield call(queryChartsOnPreview, parse(queryStr));
+      if(data){
+        yield put({
+          type: 'queryChartDataSuccess',
+          payload: data.data
+        });
+      }
+    }
 
   },
 
@@ -86,8 +109,18 @@ export default {
     //隐藏添加报告的浮动层
     hideGenModal(state){
       return({...state, modalVisible: false});
-    }
+    },
 
+    //在切换到报告制作页面的时候，填充场景名称和存在日期的列表
+    loadResultList(state, action){
+      let scense = action.payload;
+      return({...state, scensName: scense.name, resultDateList: scense.allresult});
+    },
+
+    //图标数据查询成功填充state
+    queryChartDataSuccess(state, action){
+      return({...state, tmpData: action.payload});
+    }
 
   },
 

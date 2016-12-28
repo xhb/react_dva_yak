@@ -18,18 +18,25 @@ class ReportStepOne extends Component {
 
   constructor(props){
     super(props);
+    this.state={
+      validated: false
+    }
   }
 
   //steps调用下一步时，调用这个子组件方法验证数据和添加数据
   handleSubmit(){
+    this.textOnChange.bind(this)();
+  }
+
+  textOnChange(){
     this.props.form.validateFields((errors) => {
       if (errors) {
         this.props.stepCheck("error");
         return;
       }
-      this.props.stepCheck("process");
       const data = { ...this.props.form.getFieldsValue() };
       this.props.onStepOne(data);
+      this.props.stepCheck("process");
     });
   }
 
@@ -46,7 +53,7 @@ class ReportStepOne extends Component {
     } =  this.props;
 
     return(
-      <div onClick={this.handleSubmit.bind(this)}>
+      <div className="clickDiv" onClick={this.handleSubmit.bind(this)} >
         <Form horizontal >
           <FormItem
             label="报告名称: "

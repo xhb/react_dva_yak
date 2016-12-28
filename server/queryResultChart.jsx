@@ -95,7 +95,37 @@ module.exports = {
 
   },
 
-  //获取csv时序图表的数据
+  // 功能：获取csv时序图表的数据
+  // req  object :
+  //              req.name       场景名称
+  //              req.lastresult 场景测试结果日期
+  //
+  // res  object :
+  // [
+  //  {
+  //    node: "1",   //节点号
+  //    data: [
+  //      {
+  //        filename: "yak_result.csv",  //数据结果文件名
+  //        data: [
+  //          {AverageTPM : "0", CurrentTPM: "0", Time: "13:04:50"}, //csv的1行数据
+  //          {AverageTPM : "0", CurrentTPM: "0", Time: "13:04:51"},
+  //        ]
+  //      },
+  //      {
+  //        filename: "yak_result2.csv",
+  //        data: [
+  //          {AverageTPM : "0", CurrentTPM: "0", Time: "13:04:50"},
+  //          {AverageTPM : "0", CurrentTPM: "0", Time: "13:04:51"},
+  //        ]
+  //      }
+  //    ]
+  //  },
+  //  {
+  //    node: "2"
+  //    data: []
+  //  }
+  // ]
   'GET /api/csvpreviewdata' (req, res) {
     const caseResult = qs.parse(req.query);
     const name = caseResult.name;

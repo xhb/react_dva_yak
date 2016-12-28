@@ -14,7 +14,7 @@ class ReportStep extends Component {
     super(props);
     this.state = {
       current: 0,
-      status: "process"
+      status: "error"
     };
   }
 
@@ -24,20 +24,25 @@ class ReportStep extends Component {
 
   next() {
     let step;
+    let stepResult = false;
     if(this.state.current == 0){
       //步骤一, 添加场景步骤描述
       step = ReactDOM.findDOMNode(this.refs.reportStepOne);
+      step.click();
+      stepResult = true;
     }else if(this.state.current == 1){
       //步骤二, 添加图形定义描述
-      step = ReactDOM.findDOMNode(this.refs.reportStepTwo);
+      step = this.refs.reportStepTwo;
+      stepResult = step.handleSubmit();
     }else if(this.state.current == 2){
       //步骤三, 添加数据时间集合
       step = ReactDOM.findDOMNode(this.refs.reportStepThree);
     }
-    step.click();
-    if( this.state.status == "error"){
+
+    if( this.state.status == "error" || stepResult == false){
       return;
     };
+
     const current = this.state.current + 1;
     this.setState({ ...this.state, current: current });
   }
@@ -89,6 +94,10 @@ class ReportStep extends Component {
               onStepTwo={this.props.onStepOne}
               item={this.props.item}
               stepCheck={this.setStepStatus.bind(this)}
+              scensName={this.props.scensName}
+              resultDateList={this.props.resultDateList}
+              tmpData={this.props.tmpData}
+              onQueryChart={this.props.onQueryChart}
             />
           }
 
@@ -152,7 +161,17 @@ ReportStep.PropTypes = {
   //步骤2成功的回调
   onStepTwo: PropTypes.func,
   //步骤3成功的回调
-  onStepThere: PropTypes.func
+  onStepThere: PropTypes.func,
+  //场景名称
+  scensName: PropTypes.any,
+  //该场景全部结果日期
+  resultDateList: PropTypes.array,
+  //选择的结果数据所在日期
+  resultDate: PropTypes.any,
+  //所在日期测试结果临时数据
+  tmpData: PropTypes.array,
+  //获取所在日期测试结果临时数据回调接口
+  onQueryChart: PropTypes.func
 };
 
 export default ReportStep;

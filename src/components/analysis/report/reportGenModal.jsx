@@ -12,17 +12,7 @@ class ReportGenModal extends Component {
 
   render(){
 
-    const {
-      onStepOne,
-      onStepTwo,
-      onStepThere
-    } = this.props
-
-    const reportStepProps = {
-      onStepOne,
-      onStepTwo,
-      onStepThere
-    }
+    const reportStepProps = this.props;
 
     return(
         <Modal
@@ -52,7 +42,18 @@ ReportGenModal.PropTypes = {
   //步骤3成功的回调
   onStepThere: PropTypes.func,
   //一份报告的数据结构描述
-  item: PropTypes.any
+  item: PropTypes.any,
+
+  //为第二步骤提供查询场景数据的接口
+  onQueryChart: PropTypes.func,
+  //场景名称
+  scensName: PropTypes.string,
+  //结果日期列表
+  resultDateList: PropTypes.array,
+  //选择那个日期
+  resultDate: PropTypes.string,
+  //临时数据列表
+  tmpData: PropTypes.array
 }
 
 export default ReportGenModal;

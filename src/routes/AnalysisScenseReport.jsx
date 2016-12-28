@@ -21,7 +21,10 @@ class AnalysisScenseReport extends Component {
       modalVisible,
       previewModalVisible,
       previewModalTital,
-      originData,
+      scensName,
+      resultDateList,
+      resultDate,
+      tmpData
     } = this.props.AnalysisReportMaker;
 
     const dispatch = this.props.dispatch;
@@ -31,7 +34,7 @@ class AnalysisScenseReport extends Component {
       loading,
       previewModalVisible,
       previewModalTital,
-      originData,
+      scensName,
     };
 
     const addReportProps = {
@@ -47,6 +50,11 @@ class AnalysisScenseReport extends Component {
     const reportGenModalProps = {
       item,
       modalVisible,
+      scensName,
+      resultDateList,
+      resultDate,
+      tmpData,
+
       //步骤1成功的回调
       onStepOne(data){
         console.log(data);
@@ -64,7 +72,15 @@ class AnalysisScenseReport extends Component {
         dispatch({
           type: 'AnalysisReportMaker/hideGenModal'
         });
-      }
+      },
+      //为第二步骤提供查询场景数据的接口
+      onQueryChart(date){
+        dispatch({
+          type: 'AnalysisReportMaker/queryChartData',
+          payload: date
+        });
+      },
+
     };
 
     return(
