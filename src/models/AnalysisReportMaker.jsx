@@ -1,6 +1,6 @@
 import { querySvrResultChart, queryChartsOnPreview } from '../services/resultChart';
 import { parse } from 'qs';
-import queryScenseReport from '../services/scenseReportMongo';
+import { queryScenseReport, createScenseReport, deleteScenseReport} from '../services/scenseReportMongo';
 
 
 export default {
@@ -9,7 +9,7 @@ export default {
 
   state: {
     reportList: [],            // 多个报告的结果列表
-    item: {},             // 一份报告的数据结构描述，在steps中需要缓存数据
+    item: {},                  // 一份报告的数据结构描述，在steps中需要缓存数据
     loading: false,            // 控制加载状态
     modalVisible: false,       // 添加报告的浮动层是否可见
 
@@ -79,7 +79,34 @@ export default {
           payload: data.data
         });
       }
+    },
+
+    //提交数据
+    *commitStepData({}, {put, call, select}){
+      let payload = yield select(state => state.AnalysisReportMaker.item);
+      const { data } = yield call(createScenseReport, payload);
+      if (data && data.success) {
+        yield put({
+          type: 'createSuccess',
+          payload: {
+            newReport: data.data,
+          }
+        });
+      }
+    },
+
+    //删除数据
+    *'delete'({payload}, {put, call, select}){
+      let deleteId = payload;
+      let { data } = yield call(deleteScenseReport, parse({id: deleteId}));
+      if(data.success){
+        yield put({
+          type: 'deleteSuccess',
+          payload: {deleteReport: deleteId}
+        });
+      }
     }
+
 
   },
 
@@ -97,7 +124,6 @@ export default {
 
     //查询报告成功时的状态
     querySuccess(state, action){
-      console.log(action);
       return({...state, reportList: action.payload.data});
     },
 
@@ -120,7 +146,37 @@ export default {
     //图标数据查询成功填充state
     queryChartDataSuccess(state, action){
       return({...state, tmpData: action.payload});
-    }
+    },
+
+    //加载每一步提交的数据
+    loadStepData(state, action){
+      return({
+        ...state,
+        item: {
+          ...state.item,
+          ...action.payload,
+          scensName: state.scensName
+        }
+      });
+    },
+
+    //提交一份数据报告到数据库成功
+    createSuccess(state, action){
+      let newReport = action.payload.newReport;
+      let newReportList = state.reportList.concat();
+      newReportList.unshift(newReport);
+      return({...state, reportList: newReportList});
+    },
+
+    //数据库数据删除成功，页面数据更新
+    deleteSuccess(state, action){
+      let deleteReportId = action.payload.deleteReport;
+      let newReportList = state.reportList.concat();
+      newReportList = newReportList.filter((e)=>{
+        return(e._id != deleteReportId);
+      });
+      return({...state, reportList: newReportList});
+    },
 
   },
 

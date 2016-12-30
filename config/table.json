@@ -1,6 +1,5 @@
 {
     "report": {
-        "_id": "ObjectId",
         "scensName": "String",
         "reportName": "String",
         "testVersion": "String",

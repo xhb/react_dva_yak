@@ -36,7 +36,8 @@ class ReportStep extends Component {
       stepResult = step.handleSubmit();
     }else if(this.state.current == 2){
       //步骤三, 添加数据时间集合
-      step = ReactDOM.findDOMNode(this.refs.reportStepThree);
+      step = this.refs.reportStepThree;
+      stepResult = step.handleSubmit();
     }
 
     if( this.state.status == "error" || stepResult == false){
@@ -91,7 +92,7 @@ class ReportStep extends Component {
             &&
             <ReportStepTwo
               ref="reportStepTwo"
-              onStepTwo={this.props.onStepOne}
+              onStepTwo={this.props.onStepTwo}
               item={this.props.item}
               stepCheck={this.setStepStatus.bind(this)}
               scensName={this.props.scensName}
@@ -106,9 +107,10 @@ class ReportStep extends Component {
             &&
             <ReportStepThree
               ref="reportStepThree"
-              onStepThere={this.props.onStepOne}
+              onStepThere={this.props.onStepThere}
               item={this.props.item}
               stepCheck={this.setStepStatus.bind(this)}
+              resultDateList={this.props.resultDateList}
             />
           }
         </div>
@@ -141,7 +143,13 @@ class ReportStep extends Component {
               type="primary"
               onClick={() => {
                 this.next();
-                message.success('处理完成!')
+                setTimeout(()=>{
+                  if(this.state.current == 3){
+                    //关闭浮动层
+                    this.props.onCancel();
+                    message.success('处理完成!');
+                  }
+                }, 200);
               }}>
               完成
             </Button>
@@ -171,7 +179,9 @@ ReportStep.PropTypes = {
   //所在日期测试结果临时数据
   tmpData: PropTypes.array,
   //获取所在日期测试结果临时数据回调接口
-  onQueryChart: PropTypes.func
+  onQueryChart: PropTypes.func,
+  //关闭浮动层
+  onCancel: PropTypes.func,
 };
 
 export default ReportStep;

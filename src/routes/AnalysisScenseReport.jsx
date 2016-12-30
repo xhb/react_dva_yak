@@ -35,6 +35,12 @@ class AnalysisScenseReport extends Component {
       previewModalVisible,
       previewModalTital,
       scensName,
+      onDeleteItem(id){
+        dispatch({
+          type: 'AnalysisReportMaker/delete',
+          payload: id
+        });
+      }
     };
 
     const addReportProps = {
@@ -57,22 +63,38 @@ class AnalysisScenseReport extends Component {
 
       //步骤1成功的回调
       onStepOne(data){
-        console.log(data);
+        dispatch({
+          type: 'AnalysisReportMaker/loadStepData',
+          payload: data
+        })
       },
+
       //步骤2成功的回调
       onStepTwo(data){
-
+        dispatch({
+          type: 'AnalysisReportMaker/loadStepData',
+          payload: { chart: data }
+        })
       },
+
       //步骤3成功的回调
       onStepThere(data){
-
+        dispatch({
+          type: 'AnalysisReportMaker/loadStepData',
+          payload: { selectTime: data }
+        });
+        dispatch({
+          type: 'AnalysisReportMaker/commitStepData'
+        });
       },
+
       //浮动层的取消
       onCancel(){
         dispatch({
           type: 'AnalysisReportMaker/hideGenModal'
         });
       },
+
       //为第二步骤提供查询场景数据的接口
       onQueryChart(date){
         dispatch({

@@ -8,6 +8,19 @@ async function queryScenseReport(params){
   return request(`/api/scenseReports?${qs.stringify(params)}`);
 }
 
+async function createScenseReport(params) {
+  return request('/api/scenseReports', {
+    method: 'post',
+    body: qs.stringify(params),
+  });
+}
 
-export default queryScenseReport;
+async function deleteScenseReport(params){
+  return request('/api/scenseReports', {
+    method: 'delete',
+    body: qs.stringify(params)
+  });
+}
+
+export default { queryScenseReport, createScenseReport, deleteScenseReport};
 
