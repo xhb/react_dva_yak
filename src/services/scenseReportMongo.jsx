@@ -22,5 +22,12 @@ async function deleteScenseReport(params){
   });
 }
 
-export default { queryScenseReport, createScenseReport, deleteScenseReport};
+async function updateScenseReport(params){
+  return request('/api/scenseReports', {
+    method: 'put',
+    body: qs.stringify(params)
+  });
+}
+
+export default { queryScenseReport, createScenseReport, deleteScenseReport, updateScenseReport };
 

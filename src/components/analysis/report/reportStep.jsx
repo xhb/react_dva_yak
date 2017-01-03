@@ -22,6 +22,10 @@ class ReportStep extends Component {
     this.setState({...this.state, status: result});
   }
 
+  resetStep(){
+    this.setState({...this.state, current: 0});
+  }
+
   next() {
     let step;
     let stepResult = false;
@@ -146,6 +150,7 @@ class ReportStep extends Component {
                 setTimeout(()=>{
                   if(this.state.current == 3){
                     //关闭浮动层
+                    this.resetStep();
                     this.props.onCancel();
                     message.success('处理完成!');
                   }

@@ -42,4 +42,21 @@ module.exports = {
     });
   },
 
+  //在数据库中更新场景报告
+  "PUT /api/scenseReports" (req, res){
+    const report = qs.parse(req.body);
+    db.update("report", {_id: report._id}, report, (err, data)=>{
+      if(data){
+        res.json({
+          success: true
+        });
+      }else{
+        res.json({
+          success: false
+        });
+      }
+    });
+  },
+
+
 }

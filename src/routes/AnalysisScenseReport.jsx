@@ -24,7 +24,8 @@ class AnalysisScenseReport extends Component {
       scensName,
       resultDateList,
       resultDate,
-      tmpData
+      tmpData,
+      commitType
     } = this.props.AnalysisReportMaker;
 
     const dispatch = this.props.dispatch;
@@ -40,12 +41,41 @@ class AnalysisScenseReport extends Component {
           type: 'AnalysisReportMaker/delete',
           payload: id
         });
+      },
+      onEditItem(record){
+        //更新数据更新模式为update
+        dispatch({
+          type: 'AnalysisReportMaker/changeCommitType',
+          payload: {
+            commitType: 'update'
+          }
+        });
+        //填充item临时数据
+        dispatch({
+          type: 'AnalysisReportMaker/updateItem',
+          payload: {
+            data: record
+          }
+        });
+        //弹出浮动层
+        dispatch({
+          type: 'AnalysisReportMaker/showGenModal'
+        });
       }
     };
 
     const addReportProps = {
+
       //点击添加报告按钮
       onAdd(){
+        //更新数据更新模式为create
+        dispatch({
+          type: 'AnalysisReportMaker/changeCommitType',
+          payload: {
+            commitType: 'create'
+          }
+        });
+        //弹出浮动层
         dispatch({
           type: 'AnalysisReportMaker/showGenModal'
         });
@@ -60,6 +90,7 @@ class AnalysisScenseReport extends Component {
       resultDateList,
       resultDate,
       tmpData,
+      commitType,
 
       //步骤1成功的回调
       onStepOne(data){
@@ -79,12 +110,13 @@ class AnalysisScenseReport extends Component {
 
       //步骤3成功的回调
       onStepThere(data){
+        let ctype = (commitType==="create" ? "commitStepData" : "updateStepData");
         dispatch({
           type: 'AnalysisReportMaker/loadStepData',
           payload: { selectTime: data }
         });
         dispatch({
-          type: 'AnalysisReportMaker/commitStepData'
+          type: `AnalysisReportMaker/${ctype}`
         });
       },
 
@@ -109,7 +141,7 @@ class AnalysisScenseReport extends Component {
       <MainLayout location={this.props.location}>
         <ReportAdd {...addReportProps} />
         <AnalysisReportList {...analysisReportListProps} />
-        <ReportGenModal {...reportGenModalProps} />
+        <ReportGenModal {...reportGenModalProps} />;
       </MainLayout>
     );
   }

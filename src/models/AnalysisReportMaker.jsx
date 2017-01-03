@@ -1,6 +1,6 @@
 import { querySvrResultChart, queryChartsOnPreview } from '../services/resultChart';
 import { parse } from 'qs';
-import { queryScenseReport, createScenseReport, deleteScenseReport} from '../services/scenseReportMongo';
+import { queryScenseReport, createScenseReport, deleteScenseReport, updateScenseReport} from '../services/scenseReportMongo';
 
 
 export default {
@@ -24,6 +24,7 @@ export default {
                             //   { node: 1, data: [ [], [] ] },
                             //   { node: 2, data: [ [], [] ] }
                             // ]
+    commitType: 'create'    // 数据提交类型，是提交全新数据，还是只是修改更新数据
   },
 
   subscriptions: {
@@ -90,6 +91,20 @@ export default {
           type: 'createSuccess',
           payload: {
             newReport: data.data,
+          }
+        });
+      }
+    },
+
+    //更新数据报告的数据
+    *updateStepData({}, {put, call, select}){
+      let payload = yield select(state => state.AnalysisReportMaker.item);
+      const { data } = yield call(updateScenseReport, payload);
+      if (data && data.success) {
+        yield put({
+          type: 'updateSuccess',
+          payload: {
+            updateReport: payload,
           }
         });
       }
@@ -177,6 +192,34 @@ export default {
       });
       return({...state, reportList: newReportList});
     },
+
+    //修改数据提交类型
+    changeCommitType(state, action){
+      if(action.payload.commitType==="create"){
+        return({...state, commitType: "create", item: {} });
+      }else{
+        return({...state, commitType: "update"});
+      }
+    },
+
+    //修改数据更新时需要临时提交的数据
+    updateItem(state, action){
+      return({...state, item: action.payload.data});
+    },
+
+    //更新reportList中对应item数据
+    updateSuccess(state, action){
+      let newitem = action.payload.updateReport;
+      let newReportList = state.reportList.concat();
+      newReportList = newReportList.map((e)=>{
+        return(e._id == newitem._id ? newitem : e);
+      });
+      return({
+        ...state,
+        reportList: newReportList
+      });
+    },
+
 
   },
 
