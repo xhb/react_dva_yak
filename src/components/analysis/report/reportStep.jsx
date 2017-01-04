@@ -26,13 +26,36 @@ class ReportStep extends Component {
     this.setState({...this.state, current: 0});
   }
 
+  stepOneFormChange(changedFields){
+    //步骤1中的表单数据发生变化，这里就会被回调
+    let nameErr=false, verErr=false, scenseErr=false;
+    if(changedFields.reportName !== undefined){
+      this.props.item.reportName = changedFields.reportName.value;
+      nameErr = changedFields.reportName.errors === undefined ? false : true;
+    }
+    if(changedFields.testVersion !== undefined){
+      this.props.item.testVersion = changedFields.testVersion.value;
+      verErr = changedFields.testVersion.errors === undefined ? false : true;
+    }
+    if(changedFields.scenseDes !== undefined){
+      this.props.item.scenseDes = changedFields.scenseDes.value;
+      scenseErr = changedFields.scenseDes.errors === undefined ? false : true;
+    }
+
+    if(nameErr || verErr || scenseErr){
+      this.setStepStatus("error");
+    }else{
+      this.setStepStatus("process");
+    }
+  }
+
+
   next() {
     let step;
     let stepResult = false;
     if(this.state.current == 0){
       //步骤一, 添加场景步骤描述
-      step = ReactDOM.findDOMNode(this.refs.reportStepOne);
-      step.click();
+      this.props.onStepOne(this.props.item);
       stepResult = true;
     }else if(this.state.current == 1){
       //步骤二, 添加图形定义描述
@@ -84,10 +107,8 @@ class ReportStep extends Component {
             this.state.current == 0
             &&
             <ReportStepOne
-              ref="reportStepOne"
-              onStepOne={this.props.onStepOne}
               item={this.props.item}
-              stepCheck={this.setStepStatus.bind(this)}
+              onChange={this.stepOneFormChange.bind(this)}
             />
           }
 
