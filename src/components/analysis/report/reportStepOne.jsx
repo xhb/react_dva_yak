@@ -92,7 +92,7 @@ ReportStepOne.propTypes = {
   form: PropTypes.object,
   //编辑一个报告时传进来的表格对象初始化数据
   item: PropTypes.object,
-  //错误验证
+  //每一次表单数据输入验证
   onChange: PropTypes.func
 };
 

@@ -35,6 +35,8 @@ class AnalysisReportList extends Component {
         key: 'operation',
         render: (text, record) => (
           <p>
+            <a onClick={() => this.props.previewReport(record)}>预览</a>
+            &nbsp;
             <a onClick={() => this.props.onEditItem(record)}>编辑</a>
             &nbsp;
             <Popconfirm title="确定要删除吗？" onConfirm={() => this.props.onDeleteItem(record._id)}>
@@ -65,6 +67,8 @@ AnalysisReportList.PropTypes = {
   onDeleteItem: PropTypes.func,
   //编辑一份报告
   onEditItem: PropTypes.func,
+  //预览一份报告:
+  previewReport: PropTypes.func,
   //全部报告列表数据源
   dataSource: PropTypes.array,
   //访问api时过场加载

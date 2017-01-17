@@ -3,6 +3,8 @@ import { Table, Select, Alert, Tooltip, Button } from 'antd';
 import React, { Component, PropTypes } from 'react';
 import styles from './YTable.less';
 import _ from "underscore";
+import randomcolor from "randomcolor";
+
 
 const Option = Select.Option;
 
@@ -59,7 +61,8 @@ class YTable extends Component {
   }
 
   getRandomColor(){
-    return '#'+('00000'+(Math.random()*0x1000000<<0).toString(16)).substr(-6);
+    //return '#'+('00000'+(Math.random()*0x1000000<<0).toString(16)).substr(-6);
+    return randomcolor({luminosity: 'dark'});
   }
 
   genBarchartData(){

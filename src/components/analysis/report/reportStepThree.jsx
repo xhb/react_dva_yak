@@ -1,5 +1,6 @@
 import React, {Component, PropTypes } from 'react';
 import { Form, Input, Modal, Transfer } from 'antd';
+import styles from './reportStepThree.less';
 
 //步骤三，添加绘图数据的所需要的时间信息
 
@@ -62,9 +63,10 @@ class ReportStepThree extends Component {
     });
 
     return(
-      <div>
-        <div className="transferDiv" onClick={this.handleSubmit.bind(this)} />
+      <div className={styles.transferDiv}>
+        <div className={styles.transferClickDiv} onClick={this.handleSubmit.bind(this)} />
         <Transfer
+          className={styles.tranSelfDiv}
           dataSource={dateData}
           titles={['源头', '选中']}
           targetKeys={this.state.targetKeys}

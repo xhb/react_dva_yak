@@ -5,6 +5,7 @@ import MainLayout from '../components/mainlayout/MainLayout';
 import AnalysisReportList from '../components/analysis/report/reportList';
 import ReportAdd from "../components/analysis/report/reportAdd";
 import ReportGenModal from "../components/analysis/report/reportGenModal";
+import ReportView from "../components/analysis/report/preview/reportView";
 
 class AnalysisScenseReport extends Component {
 
@@ -15,33 +16,48 @@ class AnalysisScenseReport extends Component {
   render(){
 
     const {
+      //测试列表模块
       item,
       reportList,
       loading,
       modalVisible,
+
+      //测试报告表单模块
       previewModalVisible,
       previewModalTital,
+
       scensName,
       resultDateList,
       resultDate,
       tmpData,
-      commitType
+      commitType,
+
+      //测试报告结果预览
+      preVisible,
+      record,
+      drawData
+
     } = this.props.AnalysisReportMaker;
 
     const dispatch = this.props.dispatch;
 
     const analysisReportListProps = {
+
       dataSource: reportList,
       loading,
       previewModalVisible,
       previewModalTital,
       scensName,
+
+      //删掉一份场景报告
       onDeleteItem(id){
         dispatch({
           type: 'AnalysisReportMaker/delete',
           payload: id
         });
       },
+
+      //编辑一份场景报告
       onEditItem(record){
         //更新数据更新模式为update
         dispatch({
@@ -61,11 +77,25 @@ class AnalysisScenseReport extends Component {
         dispatch({
           type: 'AnalysisReportMaker/showGenModal'
         });
+      },
+
+      //预览一个小场景的测试报告
+      previewReport(record){
+        console.log(record);
+        dispatch({
+          type: "AnalysisReportMaker/fetchPreviewData",
+          payload: record
+        });
+        //弹出预览报告的浮动层
+        dispatch({
+          type: 'AnalysisReportMaker/showPreviewModal',
+          payload: record
+        });
       }
+
     };
 
     const addReportProps = {
-
       //点击添加报告按钮
       onAdd(){
         //更新数据更新模式为create
@@ -80,7 +110,6 @@ class AnalysisScenseReport extends Component {
           type: 'AnalysisReportMaker/showGenModal'
         });
       },
-
     };
 
     const reportGenModalProps = {
@@ -137,11 +166,23 @@ class AnalysisScenseReport extends Component {
 
     };
 
+    const reportPreviewProps = {
+      preVisible,
+      record,
+      drawData,
+      onPreCancel(){
+        dispatch({
+          type: 'AnalysisReportMaker/hidePreviewModal'
+        });
+      }
+    }
+
     return(
       <MainLayout location={this.props.location}>
         <ReportAdd {...addReportProps} />
         <AnalysisReportList {...analysisReportListProps} />
-        <ReportGenModal {...reportGenModalProps} />;
+        <ReportGenModal {...reportGenModalProps} />
+        <ReportView {...reportPreviewProps} />
       </MainLayout>
     );
   }

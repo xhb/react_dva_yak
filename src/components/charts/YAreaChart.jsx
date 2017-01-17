@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import _ from "underscore";
 import {Spin, Alert} from 'antd';
+import randomcolor from "randomcolor";
 
 class YAreaChart extends Component {
 

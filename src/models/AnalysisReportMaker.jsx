@@ -8,23 +8,31 @@ export default {
   namespace: 'AnalysisReportMaker',
 
   state: {
-    reportList: [],            // 多个报告的结果列表
-    item: {},                  // 一份报告的数据结构描述，在steps中需要缓存数据
-    loading: false,            // 控制加载状态
-    modalVisible: false,       // 添加报告的浮动层是否可见
+    //报告列表
+    reportList: [],         // 多个报告的结果列表
+    item: {},               // 一份报告的数据结构描述，在steps中需要缓存数据
+    loading: false,         // 控制加载状态
+    modalVisible: false,    // 添加报告的浮动层是否可见
 
-    previewModalVisible: false, // 最近结果预览弹出窗的显示状态
-    previewModalTital: '',      // 预览框标题名字
+    //添加报表表单浮动层
+    previewModalVisible: false,
+    previewModalTital: '',
 
     scensName: '',          // 当前选择的场景名称
     resultDate: '',         // 当前选择的数据日期
     resultDateList: [],     // 存放该场景总共存放的结果日期
-    tmpData: [],            // 存放画图数据，以下数据为例，表示两个图表数据，time或Time做x轴，其他做y轴
+    // 存放画图数据，以下数据为例，表示两个图表数据，time或Time做x轴，其他做y轴
+    tmpData: [],
                             // [
                             //   { node: 1, data: [ [], [] ] },
                             //   { node: 2, data: [ [], [] ] }
                             // ]
-    commitType: 'create'    // 数据提交类型，是提交全新数据，还是只是修改更新数据
+    commitType: 'create',   // 数据提交类型，是提交全新数据，还是只是修改更新数据
+
+    //测试报告预览浮动层
+    preVisible: false,      //测试报告预览框的显示状态
+    record: [],              //一份报告记录
+    drawData: []
   },
 
   subscriptions: {
@@ -120,8 +128,29 @@ export default {
           payload: {deleteReport: deleteId}
         });
       }
-    }
+    },
 
+    //获取预览数据
+    *fetchPreviewData({payload}, {put, call, select}){
+      //清空存在的预览数据
+      yield put({
+        type: "clearPreviewData"
+      });
+
+      //把每个日期的预览数据填充进drawData
+      for( let item in payload.selectTime){
+        let queryStr = { name: payload.scensName, lastresult: payload.selectTime[item] };
+        let previewData = yield call(queryChartsOnPreview, parse(queryStr));
+        //添加日期信息
+        previewData.data["date"] = payload.selectTime[item];
+        if(previewData.data && previewData.data.success){
+          yield put({
+            type: 'fetchPreviewDataSuccess',
+            payload: previewData.data
+          });
+        }
+      }
+    },
 
   },
 
@@ -220,6 +249,40 @@ export default {
       });
     },
 
+    //显示报告的预览窗口
+    showPreviewModal(state, action){
+      return({
+        ...state,
+        preVisible: true,
+        record: action.payload
+      });
+    },
+
+    //获取到服务端的测试日期数据-给预览测试报告使用
+    fetchPreviewDataSuccess(state, action){
+      let drawdata = state.drawData.concat();
+      drawdata.push(action.payload);
+      return({
+        ...state,
+        drawData: drawdata
+      });
+    },
+
+    //清空服务端的测试日期数据-给预览测试报告使用
+    clearPreviewData(state){
+      return({
+        ...state,
+        drawData: []
+      });
+    },
+
+    //隐藏报告预览窗口
+    hidePreviewModal(state){
+      return({
+        ...state,
+        preVisible: false
+      });
+    },
 
   },
 
