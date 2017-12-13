@@ -13,29 +13,34 @@ function getYakCaseInfo(){
 
   //dir: yak_result
   fs.readdirSync(yakResultDirBase).forEach(function (item) {
-    //dir: yak_result/case_name
-    let info = fs.statSync(yakResultDirBase + "/" + item);
-    if (info.isDirectory()) {
-      let caseResultsDir = yakResultDirBase + "/" + item + "/test_result";
-      let resultCount = [];
-      //dir: yak_result/case_name/test_result
-      fs.readdirSync(caseResultsDir).forEach(function (rDir) {
-        //dir: yak_result/case_name/test_result/timestamp
-        let info = fs.statSync(caseResultsDir + "/" + rDir);
-        if (info.isDirectory()) {
-          resultCount.push(rDir);
-        }
-      });
+    try{
+      //dir: yak_result/case_name
+      let info = fs.statSync(yakResultDirBase + "/" + item);
+      if (info.isDirectory()) {
+        let caseResultsDir = yakResultDirBase + "/" + item + "/test_result";
+        let resultCount = [];
+        //dir: yak_result/case_name/test_result
+        fs.readdirSync(caseResultsDir).forEach(function (rDir) {
+          //dir: yak_result/case_name/test_result/timestamp
+          let info = fs.statSync(caseResultsDir + "/" + rDir);
+          if (info.isDirectory()) {
+            resultCount.push(rDir);
+          }
+        });
 
-      yakCaseInfo.data.push({
-        id: item,
-        name: item,
-        counts: resultCount.length,
-        lastresult: resultCount[resultCount.length - 1],
-        allresult: resultCount
-      });
+        yakCaseInfo.data.push({
+          id: item,
+          name: item,
+          counts: resultCount.length,
+          lastresult: resultCount[resultCount.length - 1],
+          allresult: resultCount
+        });
 
-    }
+      }
+    }catch(e){
+      console.log(e)
+    };
+
   });
 
   yakCaseInfo.page.total = yakCaseInfo.data.length;
